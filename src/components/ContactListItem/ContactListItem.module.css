@@ -1,0 +1,40 @@
+.delete-btn {
+  background-color: rgb(39, 100, 79);
+  border: none;
+  border-radius: 5px;
+  color: azure;
+  font-size: 12px;
+}
+
+.delete-btn:hover {
+  background-color: rgb(251, 253, 252);
+  color: rgb(39, 100, 79);
+  border: solid 1px rgb(39, 100, 79);
+}
+
+.contact-list {
+  display: flex;
+  max-width: 300px;
+  justify-content: space-between;
+  gap: 5px;
+  padding: 10px;
+  font-weight: 700;
+  background: linear-gradient(to right, rgb(162, 186, 178), transparent);
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.contact-list:hover {
+  border: solid 1px rgb(39, 100, 79);
+}
+
+.phone {
+  font-weight: normal;
+  display: flex;
+  gap: 10px;
+  /* justify-content: right; */
+}
+
+.name {
+  align-self: flex-start;
+}

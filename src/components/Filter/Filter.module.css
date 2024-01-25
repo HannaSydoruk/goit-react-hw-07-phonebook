@@ -1,0 +1,8 @@
+.input-filter {
+  background-color: rgb(251, 253, 252);
+  border: solid 1px rgb(39, 100, 79);
+  border-radius: 5px;
+  width: 250px;
+  height: 24px;
+  padding-left: 10px;
+}
