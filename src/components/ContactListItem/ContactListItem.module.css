@@ -14,7 +14,7 @@
 
 .contact-list {
   display: flex;
-  max-width: 300px;
+  max-width: 620px;
   justify-content: space-between;
   gap: 5px;
   padding: 10px;
