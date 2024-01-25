@@ -1,12 +1,20 @@
 import { ContactListItem } from 'components';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeContact } from '../../redux/contacts/contactsSlice';
+import {
+  apiGetContacts,
+  removeContact,
+} from '../../redux/contacts/contactsSlice';
 import css from './ContactList.module.css';
+import { useEffect } from 'react';
 
 export const ContactList = () => {
   const contacts = useSelector(store => store.contacts.contacts);
   const filter = useSelector(store => store.contacts.filter);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(apiGetContacts());
+  }, [dispatch]);
 
   const filteredContacts = contacts.filter(contact => {
     return contact.name

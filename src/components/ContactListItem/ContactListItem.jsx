@@ -4,7 +4,7 @@ export const ContactListItem = ({ contact, onDeleteHandler }) => {
     <li className={css['contact-list']}>
       <span className={css.name}>{contact.name}</span>
       <span className={css.phone}>
-        {contact.number}
+        {contact.phone}
         <button
           className={css['delete-btn']}
           onClick={() => onDeleteHandler(contact.id)}
