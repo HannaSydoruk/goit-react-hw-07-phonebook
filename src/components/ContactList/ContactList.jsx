@@ -1,8 +1,8 @@
 import { ContactListItem } from 'components';
 import { useSelector, useDispatch } from 'react-redux';
 import {
+  apiDeleteContact,
   apiGetContacts,
-  removeContact,
 } from '../../redux/contacts/contactsSlice';
 import css from './ContactList.module.css';
 import { useEffect } from 'react';
@@ -23,8 +23,7 @@ export const ContactList = () => {
   });
 
   const onDeleteHandler = contactId => {
-    const action = removeContact(contactId);
-    dispatch(action);
+    dispatch(apiDeleteContact(contactId));
   };
 
   return (

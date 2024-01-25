@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { requestContacts } from "services/api";
+import { deleteContact, postContact, requestContacts } from "services/api";
 import { STATUSES } from "utils/constants";
 
 const initialState = {
     contacts: [],
     filter: '',
-    status: STATUSES.idle
+    status: STATUSES.idle,
+    error: null,
 }
 
 export const apiGetContacts = createAsyncThunk(
@@ -21,6 +22,30 @@ export const apiGetContacts = createAsyncThunk(
     }
 );
 
+export const apiDeleteContact = createAsyncThunk(
+    'contacts/apiDeleteContact',
+    async (contactId, thunkApi) => {
+        try {
+            const contacts = await deleteContact(contactId);
+            return contacts; // Action Payload
+        } catch (error) {
+            return thunkApi.rejectWithValue(error.message);
+        }
+    }
+);
+
+export const apiAddContact = createAsyncThunk(
+    'contacts/apiAddContact',
+    async (contact, thunkApi) => {
+        try {
+            const newContact = await postContact(contact);
+            return newContact; // Action Payload
+        } catch (error) {
+            return thunkApi.rejectWithValue(error.message);
+        }
+    }
+);
+
 const contactsSlice = createSlice({
     // Ім'я слайсу
     name: "contacts",
@@ -28,14 +53,6 @@ const contactsSlice = createSlice({
     initialState,
     // Об'єкт редюсерів
     reducers: {
-        addContact(state, action) {
-            state.contacts = [...state.contacts, action.payload];
-        },
-        removeContact(state, action) {
-            state.contacts = state.contacts.filter(
-                contact => contact.id !== action.payload
-            )
-        },
         setFilter(state, action) {
             state.filter = action.payload;
         },
@@ -54,9 +71,37 @@ const contactsSlice = createSlice({
                 state.status = STATUSES.error;
                 state.error = action.payload;
             })
+
+            .addCase(apiDeleteContact.pending, (state, action) => {
+                state.status = STATUSES.pending;
+                state.error = null;
+            })
+            .addCase(apiDeleteContact.fulfilled, (state, action) => {
+                state.status = STATUSES.success;
+                state.contacts = state.contacts.filter(
+                    contact => contact.id !== action.payload.id
+                )
+            })
+            .addCase(apiDeleteContact.rejected, (state, action) => {
+                state.status = STATUSES.error;
+                state.error = action.payload;
+            })
+
+            .addCase(apiAddContact.pending, (state, action) => {
+                state.status = STATUSES.pending;
+                state.error = null;
+            })
+            .addCase(apiAddContact.fulfilled, (state, action) => {
+                state.status = STATUSES.success;
+                state.contacts = [...state.contacts, action.payload];
+            })
+            .addCase(apiAddContact.rejected, (state, action) => {
+                state.status = STATUSES.error;
+                state.error = action.payload;
+            })
 });
 
 // Генератори екшенів
-export const { addContact, removeContact, setFilter } = contactsSlice.actions;
+export const { setFilter } = contactsSlice.actions;
 // Редюсер слайсу
 export const contactsReducer = contactsSlice.reducer;

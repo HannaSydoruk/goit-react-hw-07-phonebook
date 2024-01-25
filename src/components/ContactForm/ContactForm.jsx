@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { nanoid } from 'nanoid';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from '../../redux/contacts/contactsSlice';
+import { apiAddContact } from '../../redux/contacts/contactsSlice';
 import css from './ContactForm.module.css';
 
 export const ContactForm = () => {
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
-  const formKey = { name: setName, number: setNumber };
+  const [phone, setPhone] = useState('');
+  const formKey = { name: setName, phone: setPhone };
   const dispatch = useDispatch();
   const contacts = useSelector(store => store.contacts.contacts);
 
@@ -18,7 +18,7 @@ export const ContactForm = () => {
 
   const reset = () => {
     setName('');
-    setNumber('');
+    setPhone('');
   };
 
   const formSubmitHandler = e => {
@@ -33,10 +33,10 @@ export const ContactForm = () => {
     const contact = {
       id: nanoid(),
       name,
-      number,
+      phone,
     };
 
-    const action = addContact(contact);
+    const action = apiAddContact(contact);
     dispatch(action);
     reset();
   };
@@ -54,8 +54,8 @@ export const ContactForm = () => {
       />
       <input
         type="tel"
-        name="number"
-        value={number}
+        name="phone"
+        value={phone}
         onChange={onChangeHandler}
         placeholder="Phone"
         id={nanoid()}
