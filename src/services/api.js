@@ -4,12 +4,12 @@ const instance = axios.create({
     baseURL: 'https://65b21e949bfb12f6eafce72c.mockapi.io/api',
 });
 
-export const requestContacts = async () => {
+export const fetchContacts = async () => {
     const { data } = await instance.get('/contacts');
     return data;
 };
 
-export const postContact = async (contact) => {
+export const addContact = async (contact) => {
     const { data } = await instance.post('/contacts', contact);
     return data;
 };

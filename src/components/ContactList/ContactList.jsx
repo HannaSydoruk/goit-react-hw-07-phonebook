@@ -1,19 +1,16 @@
 import { ContactListItem } from 'components';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  apiDeleteContact,
-  apiGetContacts,
-} from '../../redux/contacts/contactsSlice';
+import { deleteContact, fetchAll } from '../../redux/contacts/contactsSlice';
 import css from './ContactList.module.css';
 import { useEffect } from 'react';
 
 export const ContactList = () => {
-  const contacts = useSelector(store => store.contacts.contacts);
+  const contacts = useSelector(store => store.contacts.items);
   const filter = useSelector(store => store.contacts.filter);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(apiGetContacts());
+    dispatch(fetchAll());
   }, [dispatch]);
 
   const filteredContacts = contacts.filter(contact => {
@@ -23,7 +20,7 @@ export const ContactList = () => {
   });
 
   const onDeleteHandler = contactId => {
-    dispatch(apiDeleteContact(contactId));
+    dispatch(deleteContact(contactId));
   };
 
   return (
